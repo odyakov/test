@@ -1,0 +1,4 @@
+django
+psycopg2-binary
+pika==1.1.0
+django-mailer

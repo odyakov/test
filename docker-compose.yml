@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - network
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - network
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: unless-stopped
+    volumes:
+      - rabbitmq_data:/data
+    depends_on:
+      - db
+      - web
+    networks:
+      - network
+  consume:
+    build: .
+    depends_on:
+      - rabbitmq
+      - db
+      - web
+    command: sh -c "sleep 10 && python /code/test/sendmail/scripts/consumer.py"
+    networks:
+      - network
+volumes:
+  rabbitmq_data:
+networks:
+  network:
