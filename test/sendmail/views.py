@@ -22,11 +22,12 @@ class SignUpView(generic.CreateView):
     def take_mail(username, email):
         msg = {}
         username = username
-        msg['from_email'] = settings.DEFAULT_FROM_EMAIL
-        msg['recipients'] = [email]
         msg['subject'] = 'Добро пожаловать, {0}'.format(username)
-        msg['message_plaintext'] = 'Добро пожаловать, {0}'.format(username)
-        msg['message_html'] = render_to_string('sendmail/send_mail.html', {'username': username})
+        msg['message'] = 'Добро пожаловать, {0}'.format(username)
+        msg['from_email'] = settings.DEFAULT_FROM_EMAIL
+        msg['recipient_list'] = [email]
+        msg['html_message'] = render_to_string('sendmail/send_mail.html',
+                                               {'username': username})
         return msg
 
     def form_valid(self, form):
@@ -36,4 +37,3 @@ class SignUpView(generic.CreateView):
         email = form.instance.email
         mail_to_queue(self.take_mail(username, email))
         return super(SignUpView, self).form_valid(form)
-

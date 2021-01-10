@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'test.sendmail',
-    # 'mailer',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,14 +123,14 @@ STATIC_URL = '/static/'
 
 EMAIL_TIMEOUT = 5
 
-# EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 DEFAULT_FROM_EMAIL = 'deepython@yandex.ru'
 SERVER_EMAIL = 'deepython@yandex.ru'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_HOST_USER = 'deepython@yandex.ru'
-EMAIL_HOST_PASSWORD = 'testpassword'
-# EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'hmdtpvvqdjkxulut'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
 # EMAIL_USE_TLS = True
 
 # RABBITMQ_PORT = 5672
